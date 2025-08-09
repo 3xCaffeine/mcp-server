@@ -1,5 +1,7 @@
+
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin } from "better-auth/plugins";
 import { db } from "./db";
 
 export const auth = betterAuth({
@@ -15,4 +17,7 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         },
     },
+    plugins: [
+        admin()
+    ]
 });
