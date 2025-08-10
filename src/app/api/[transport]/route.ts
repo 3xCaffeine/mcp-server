@@ -1,17 +1,18 @@
 import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
+import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 
 const handler = async (req: Request) => {
     // Get the session using the access token sent from the MCP client
     const session = await auth.api.getMcpSession({
         headers: req.headers
     });
-    
+
     if (!session) {
         // Return 401 with proper WWW-Authenticate header as per RFC 9728
         const baseUrl = process.env.BETTER_AUTH_URL || "http://localhost:3000";
-        
+
         return new Response(null, {
             status: 401,
             headers: {
@@ -41,9 +42,9 @@ const handler = async (req: Request) => {
                 {},
                 async () => {
                     return {
-                        content: [{ 
-                            type: "text", 
-                            text: `User ID: ${session.userId}\nScopes: ${session.scopes || 'none'}` 
+                        content: [{
+                            type: "text",
+                            text: `User ID: ${session.userId}\nScopes: ${session.scopes || 'none'}`
                         }],
                     };
                 },
@@ -61,6 +62,9 @@ const handler = async (req: Request) => {
                     };
                 },
             );
+
+            // Register Gmail tools
+            registerGmailTools(server, session);
         },
         {
             capabilities: {
@@ -74,6 +78,7 @@ const handler = async (req: Request) => {
                     roll_dice: {
                         description: "Roll an N-sided die",
                     },
+                    ...gmailToolsCapabilities,
                 },
             },
         },

@@ -19,6 +19,19 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
             accessType: "offline", // Always get refresh token
             prompt: "select_account+consent", // Always ask for consent
+            scope: [
+                "openid",
+                "email",
+                "profile",
+                "https://www.googleapis.com/auth/gmail.modify",
+                "https://www.googleapis.com/auth/gmail.settings.basic",
+                "https://www.googleapis.com/auth/userinfo.email",
+                "https://www.googleapis.com/auth/userinfo.profile",
+                "https://www.googleapis.com/auth/gmail.send",
+                "https://mail.google.com/",
+                "https://www.googleapis.com/auth/gmail.modify",
+                "https://www.googleapis.com/auth/gmail.compose"
+            ],
         },
     },
     plugins: [
