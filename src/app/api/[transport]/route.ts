@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
+import { getUserById } from "@/lib/db/getUserById";
 
 
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
@@ -47,17 +48,36 @@ const handler = async (req: Request) => {
             );
 
             // User info tool - demonstrates access to user session
-            // TODO: this should also give the user email
             server.tool(
                 "get_user_info",
                 "Get information about the authenticated user",
                 {},
                 async () => {
+                    // Fetch user info from DB
+                    const userId = session.userId;
+                    let userInfoText = `User ID: ${userId}\n`;
+                    let name = "Unknown", email = "Unknown", image = "", emailVerified = "", role = "", banned = "", createdAt = "";
+                    if (userId) {
+                        const user = await getUserById(userId);
+                        if (user) {
+                            name = user.name || "Unknown";
+                            email = user.email || "Unknown";
+                            emailVerified = user.emailVerified !== undefined ? String(user.emailVerified) : "";
+                            role = user.role || "";
+                            banned = user.banned !== undefined ? String(user.banned) : "";
+                            createdAt = user.createdAt ? new Date(user.createdAt).toLocaleString() : "";
+                        }
+                    }
+                    userInfoText += `Name: ${name}\nEmail: ${email}\nImage: ${image}\nEmail Verified: ${emailVerified}\nRole: ${role}\nBanned: ${banned}\nCreated At: ${createdAt}\n`;
+                    // Session info
+                    userInfoText += `Session Scopes: ${session.scopes || "none"}`;
                     return {
-                        content: [{
-                            type: "text",
-                            text: `User ID: ${session.userId}\nScopes: ${session.scopes || 'none'}`
-                        }],
+                        content: [
+                            {
+                                type: "text",
+                                text: userInfoText
+                            }
+                        ]
                     };
                 },
             );
