@@ -45,7 +45,10 @@ export const auth = betterAuth({
                 "https://www.googleapis.com/auth/spreadsheets.readonly",
                 // Slides scopes
                 "https://www.googleapis.com/auth/presentations",
-                "https://www.googleapis.com/auth/presentations.readonly"
+                "https://www.googleapis.com/auth/presentations.readonly",
+                // Tasks scopes
+                "https://www.googleapis.com/auth/tasks",
+                "https://www.googleapis.com/auth/tasks.readonly"
             ],
         },
     },

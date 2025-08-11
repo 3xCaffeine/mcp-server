@@ -7,6 +7,7 @@ import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
 import { registerSheetsTools, sheetsToolsCapabilities } from "./tools/sheets";
 import { registerSlidesTools, slidesToolsCapabilities } from "./tools/slides";
+import { registerTasksTools, tasksToolsCapabilities } from "./tools/tasks";
 
 
 const handler = async (req: Request) => {
@@ -80,6 +81,8 @@ const handler = async (req: Request) => {
             registerSheetsTools(server, session);
             // Register Google Slides tools
             registerSlidesTools(server, session);
+            // Register Google Tasks tools
+            registerTasksTools(server, session);
         },
         {
             capabilities: {
@@ -98,6 +101,7 @@ const handler = async (req: Request) => {
                     ...calendarToolsCapabilities,
                     ...sheetsToolsCapabilities,
                     ...slidesToolsCapabilities,
+                    ...tasksToolsCapabilities,
                 },
             },
         },
