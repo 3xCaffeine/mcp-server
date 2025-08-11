@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Secure OAuth 2.1 MCP Server - Google Tools, Memory, Sequential Thinking",
+  title: "The Thing MCP Server",
   description: "A secure OAuth 2.1 Model Context Protocol (MCP) server providing advanced tools for Google services (Gmail, Drive, Calendar, Sheets, Slides, Tasks), memory graph, and sequential thinking capabilities.",
 };
 

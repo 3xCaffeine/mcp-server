@@ -65,12 +65,12 @@ export default function Home() {
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-8 border border-green-500/20">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              Secure OAuth 2.1 Server Active
+              Server Active
             </div>
 
             {/* Main Heading */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent">
-              Next-Gen MCP Server
+              The Thing MCP Server
             </h1>
 
             <p className="text-xl sm:text-2xl text-muted-foreground mb-4 leading-relaxed">
