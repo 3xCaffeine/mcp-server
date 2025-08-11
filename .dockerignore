@@ -57,6 +57,7 @@ README.md
 Dockerfile*
 docker-compose*
 .dockerignore
+deployment/
 
 # IDE
 .vscode
