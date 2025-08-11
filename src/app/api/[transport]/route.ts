@@ -11,7 +11,8 @@ import { registerSlidesTools, slidesToolsCapabilities } from "./tools/slides";
 import { registerTasksTools, tasksToolsCapabilities } from "./tools/tasks";
 import { registerMemoryTools, memoryToolsCapabilities } from "./tools/memory";
 import { registerSequentialThinkingTool, sequentialThinkingToolsCapabilities } from "./tools/sequentialthinking";
-
+import { registerFormsTools, formsToolsCapabilities } from "./tools/gforms";
+import { registerDocsTools, docsToolsCapabilities } from "./tools/gdocs";
 
 const handler = async (req: Request) => {
     // Get the session using the access token sent from the MCP client
@@ -90,6 +91,9 @@ const handler = async (req: Request) => {
             registerMemoryTools(server, session);
             // Register Sequential Thinking tool
             registerSequentialThinkingTool(server, session);
+            // Register Google Forms tools
+            registerFormsTools(server, session);
+            registerDocsTools(server, session); // ✅ NEW!
         },
         {
             capabilities: {
@@ -111,6 +115,8 @@ const handler = async (req: Request) => {
                     ...tasksToolsCapabilities,
                     ...memoryToolsCapabilities,
                     ...sequentialThinkingToolsCapabilities,
+                    ...formsToolsCapabilities,
+                    ...docsToolsCapabilities,
                 },
             },
         },
