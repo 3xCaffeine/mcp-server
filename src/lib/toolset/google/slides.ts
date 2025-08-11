@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { google } from "googleapis";
+import { google, slides_v1 } from "googleapis";
 import { getGoogleOAuthClient } from "../googleoauth-client";
 
 // Zod Schema definitions for Google Slides tools
@@ -16,7 +16,8 @@ export const GetPresentationSchema = z.object({
 export const BatchUpdatePresentationSchema = z.object({
     userGoogleEmail: z.string().email().describe("The user's Google email address"),
     presentationId: z.string().describe("The ID of the presentation to update"),
-    requests: z.array(z.record(z.any())).describe("List of update requests to apply"),
+    // can't fully type-check Google API requests with Zod, so we keep this as unknown but document it
+    requests: z.array(z.unknown()).describe("List of update requests to apply (see Google Slides API Schema$Request)"),
 });
 
 export const GetPageSchema = z.object({
@@ -98,11 +99,28 @@ export async function getPresentation(userId: string, userGoogleEmail: string, p
 /**
  * Apply batch updates to a Google Slides presentation
  */
-export async function batchUpdatePresentation(userId: string, userGoogleEmail: string, presentationId: string, requests: any[]) {
+export interface BatchUpdateResult {
+    requestNumber: number;
+    type: string;
+    objectId?: string;
+    status?: string;
+}
+
+export async function batchUpdatePresentation(
+    userId: string,
+    userGoogleEmail: string,
+    presentationId: string,
+    requests: slides_v1.Schema$Request[]
+): Promise<{
+    presentationId: string;
+    requestsApplied: number;
+    repliesReceived: number;
+    results: BatchUpdateResult[];
+}> {
     const oauth2Client = await getGoogleOAuthClient(userId);
     const slides = google.slides({ version: 'v1', auth: oauth2Client });
 
-    const body = {
+    const body: slides_v1.Schema$BatchUpdatePresentationRequest = {
         requests: requests,
     };
 
@@ -111,19 +129,18 @@ export async function batchUpdatePresentation(userId: string, userGoogleEmail: s
         requestBody: body,
     });
 
-    const replies = response.data.replies || [];
+    const replies: slides_v1.Schema$Response[] = response.data.replies || [];
 
-    const results = replies.map((reply, index) => {
-        const result: any = { requestNumber: index + 1 };
+    const results: BatchUpdateResult[] = replies.map((reply, index) => {
+        const result: BatchUpdateResult = { requestNumber: index + 1, type: "operation" };
 
-        if (reply.createSlide) {
+        if (reply.createSlide && reply.createSlide.objectId) {
             result.type = "createSlide";
             result.objectId = reply.createSlide.objectId;
-        } else if (reply.createShape) {
+        } else if (reply.createShape && reply.createShape.objectId) {
             result.type = "createShape";
             result.objectId = reply.createShape.objectId;
         } else {
-            result.type = "operation";
             result.status = "completed";
         }
 

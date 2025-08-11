@@ -106,7 +106,12 @@ export function registerSlidesTools(server: any, session: { userId: string; scop
         BatchUpdatePresentationSchema.shape,
         async ({ userGoogleEmail, presentationId, requests }: BatchUpdatePresentationInput) => {
             try {
-                const result = await batchUpdatePresentation(session.userId, userGoogleEmail, presentationId, requests);
+                const result = await batchUpdatePresentation(
+                    session.userId,
+                    userGoogleEmail,
+                    presentationId,
+                    requests as import("googleapis").slides_v1.Schema$Request[]
+                );
 
                 let message = `Batch Update Completed for ${userGoogleEmail}:\n` +
                     `- Presentation ID: ${result.presentationId}\n` +

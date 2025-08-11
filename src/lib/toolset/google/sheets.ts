@@ -2,6 +2,22 @@ import { z } from "zod";
 import { google } from "googleapis";
 import { getGoogleOAuthClient } from "../googleoauth-client";
 
+// Interface for Google Sheets spreadsheet creation request body
+interface SpreadsheetRequestBody {
+    properties: {
+        title: string;
+    };
+    sheets?: Array<{
+        properties: {
+            title: string;
+            sheetId?: number;
+            status?: string;
+            notes?: string;
+            due?: string;
+        };
+    }>;
+}
+
 // Zod Schema definitions for Google Sheets tools
 export const ListSpreadsheetsSchema = z.object({
     userGoogleEmail: z.string().email().describe("The user's Google email address"),
@@ -167,7 +183,7 @@ export async function createSpreadsheet(userId: string, userGoogleEmail: string,
     const oauth2Client = await getGoogleOAuthClient(userId);
     const sheets = google.sheets({ version: 'v4', auth: oauth2Client });
 
-    const spreadsheetBody: any = {
+    const spreadsheetBody: SpreadsheetRequestBody = {
         properties: {
             title: title,
         },
@@ -175,7 +191,10 @@ export async function createSpreadsheet(userId: string, userGoogleEmail: string,
 
     if (sheetNames && sheetNames.length > 0) {
         spreadsheetBody.sheets = sheetNames.map(name => ({
-            properties: { title: name },
+            properties: {
+                title: name,
+                // Optionally add status, notes, due if needed for your app logic
+            },
         }));
     }
 
