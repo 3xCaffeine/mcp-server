@@ -42,7 +42,10 @@ export const auth = betterAuth({
                 "https://www.googleapis.com/auth/calendar.events.readonly",
                 // Sheets scopes
                 "https://www.googleapis.com/auth/spreadsheets",
-                "https://www.googleapis.com/auth/spreadsheets.readonly"
+                "https://www.googleapis.com/auth/spreadsheets.readonly",
+                // Slides scopes
+                "https://www.googleapis.com/auth/presentations",
+                "https://www.googleapis.com/auth/presentations.readonly"
             ],
         },
     },
