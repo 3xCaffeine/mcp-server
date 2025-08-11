@@ -6,7 +6,7 @@ import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
 import { registerFormsTools, formsToolsCapabilities } from "./tools/gforms";
-
+import { registerDocsTools, docsToolsCapabilities } from "./tools/gdocs";
 
 const handler = async (req: Request) => {
     // Get the session using the access token sent from the MCP client
@@ -77,6 +77,7 @@ const handler = async (req: Request) => {
             registerCalendarTools(server, session);
             // Register Google Forms tools
             registerFormsTools(server, session);
+            registerDocsTools(server, session); // ✅ NEW!
         },
         {
             capabilities: {
@@ -94,6 +95,7 @@ const handler = async (req: Request) => {
                     ...gdriveToolsCapabilities,
                     ...calendarToolsCapabilities,
                     ...formsToolsCapabilities,
+                    ...docsToolsCapabilities,
                 },
             },
         },

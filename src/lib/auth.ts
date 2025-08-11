@@ -44,7 +44,9 @@ export const auth = betterAuth({
                 "https://www.googleapis.com/auth/forms.body",
                 "https://www.googleapis.com/auth/forms.body.readonly",
                 "https://www.googleapis.com/auth/forms.responses.readonly",
-                
+                // Docs scopes
+                'https://www.googleapis.com/auth/documents',
+                "https://www.googleapis.com/auth/documents.readonly",
             ],
         },
     },
