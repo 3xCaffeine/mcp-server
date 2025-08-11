@@ -1,3 +1,11 @@
+/**
+ * Memory functionality inspired by:
+ *   https://github.com/modelcontextprotocol/servers/blob/main/src/memory/index.ts
+ *
+ * - This implementation uses Neo4j as a backend for storing the knowledge graph, providing transactional, scalable, and advanced query capabilities.
+ * - The API surface and data model (entities, relations, observations) are similar, but this version is designed for multi-user, concurrency.
+ * - Query, update, and search operations leverage Cypher and Neo4j's graph database features for performance and flexibility.
+ */
 import { z } from "zod";
 import neo4j, { Driver, Session } from 'neo4j-driver';
 
@@ -21,65 +29,65 @@ interface KnowledgeGraph {
 
 // Zod schemas for validation
 export const CreateEntitiesSchema = z.object({
-  userId: z.string().describe("The user ID to associate entities with"),
+  userId: z.string().describe("The user ID to associate memory entities with"),
   entities: z.array(z.object({
-    name: z.string().describe("The name of the entity"),
-    entityType: z.string().describe("The type of the entity"),
-    observations: z.array(z.string()).describe("An array of observation contents associated with the entity"),
-  })).describe("Array of entities to create"),
+    name: z.string().describe("The name of the entity to store in memory"),
+    entityType: z.string().describe("The type of the entity to remember (e.g., person, place, concept, event)"),
+    observations: z.array(z.string()).describe("An array of observation contents to remember about this entity"),
+  })).describe("Array of entities to create and store in memory"),
 });
 
 export const CreateRelationsSchema = z.object({
-  userId: z.string().describe("The user ID to associate relations with"),
+  userId: z.string().describe("The user ID to associate memory relations with"),
   relations: z.array(z.object({
-    from: z.string().describe("The name of the entity where the relation starts"),
-    to: z.string().describe("The name of the entity where the relation ends"),
-    relationType: z.string().describe("The type of the relation"),
-  })).describe("Array of relations to create"),
+    from: z.string().describe("The name of the entity where the relationship starts"),
+    to: z.string().describe("The name of the entity where the relationship ends"),
+    relationType: z.string().describe("The type of relationship to remember between entities"),
+  })).describe("Array of relationships to create and store in memory"),
 });
 
 export const AddObservationsSchema = z.object({
-  userId: z.string().describe("The user ID to associate observations with"),
+  userId: z.string().describe("The user ID to associate memory observations with"),
   observations: z.array(z.object({
-    entityName: z.string().describe("The name of the entity to add the observations to"),
-    contents: z.array(z.string()).describe("An array of observation contents to add"),
-  })).describe("Array of observations to add"),
+    entityName: z.string().describe("The name of the entity to add more information to in memory"),
+    contents: z.array(z.string()).describe("An array of new observation contents to remember about this entity"),
+  })).describe("Array of observations to add to memory"),
 });
 
 export const DeleteEntitiesSchema = z.object({
-  userId: z.string().describe("The user ID to delete entities for"),
-  entityNames: z.array(z.string()).describe("An array of entity names to delete"),
+  userId: z.string().describe("The user ID to delete memory entities for"),
+  entityNames: z.array(z.string()).describe("An array of entity names to forget and remove from memory"),
 });
 
 export const DeleteObservationsSchema = z.object({
-  userId: z.string().describe("The user ID to delete observations for"),
+  userId: z.string().describe("The user ID to delete memory observations for"),
   deletions: z.array(z.object({
-    entityName: z.string().describe("The name of the entity containing the observations"),
-    observations: z.array(z.string()).describe("An array of observations to delete"),
-  })).describe("Array of observation deletions"),
+    entityName: z.string().describe("The name of the entity containing the observations to forget"),
+    observations: z.array(z.string()).describe("An array of specific observations to forget about this entity"),
+  })).describe("Array of observation deletions to remove from memory"),
 });
 
 export const DeleteRelationsSchema = z.object({
-  userId: z.string().describe("The user ID to delete relations for"),
+  userId: z.string().describe("The user ID to delete memory relations for"),
   relations: z.array(z.object({
-    from: z.string().describe("The name of the entity where the relation starts"),
-    to: z.string().describe("The name of the entity where the relation ends"),
-    relationType: z.string().describe("The type of the relation"),
-  })).describe("Array of relations to delete"),
+    from: z.string().describe("The name of the entity where the relationship to forget starts"),
+    to: z.string().describe("The name of the entity where the relationship to forget ends"),
+    relationType: z.string().describe("The type of relationship to forget between entities"),
+  })).describe("Array of relationships to delete and forget from memory"),
 });
 
 export const ReadGraphSchema = z.object({
-  userId: z.string().describe("The user ID to read the graph for"),
+  userId: z.string().describe("The user ID to read the memory knowledge graph for"),
 });
 
 export const SearchNodesSchema = z.object({
-  userId: z.string().describe("The user ID to search nodes for"),
-  query: z.string().describe("The search query to match against entity names, types, and observation content"),
+  userId: z.string().describe("The user ID to search memory for"),
+  query: z.string().describe("The search query to find and recall information from memory - matches against entity names, types, and observation content"),
 });
 
 export const OpenNodesSchema = z.object({
-  userId: z.string().describe("The user ID to open nodes for"),
-  names: z.array(z.string()).describe("An array of entity names to retrieve"),
+  userId: z.string().describe("The user ID to retrieve memory nodes for"),
+  names: z.array(z.string()).describe("An array of entity names to recall and retrieve from memory"),
 });
 
 // Neo4j Knowledge Graph Manager
