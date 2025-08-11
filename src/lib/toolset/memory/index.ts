@@ -177,36 +177,31 @@ class Neo4jKnowledgeGraphManager {
   }
 
   async addObservations(userId: string, observations: { entityName: string; contents: string[] }[]): Promise<{ entityName: string; addedObservations: string[] }[]> {
-    const results: { entityName: string; addedObservations: string[] }[] = [];
-
+    const query = `
+      UNWIND $observations AS obs
+      MATCH (e:Entity:UserEntity {name: obs.entityName, userId: $userId})
+      SET e.observations = CASE 
+        WHEN e.observations IS NULL THEN obs.contents
+        ELSE [x IN e.observations WHERE NOT x IN obs.contents] + obs.contents
+      END,
+      e.updatedAt = datetime()
+      RETURN obs.entityName as entityName, obs.contents as addedObservations, e.name as matchedName
+    `;
+    const result = await this.executeQuery(query, {
+      userId,
+      observations
+    });
+    // Check for missing entities
+    const matchedNames = new Set(result.map(r => r.matchedName));
     for (const obs of observations) {
-      const query = `
-        MATCH (e:Entity:UserEntity {name: $entityName, userId: $userId})
-        SET e.observations = CASE 
-          WHEN e.observations IS NULL THEN $newObservations
-          ELSE [x IN e.observations WHERE NOT x IN $newObservations] + $newObservations
-        END,
-        e.updatedAt = datetime()
-        RETURN e.observations as observations
-      `;
-
-      const result = await this.executeQuery(query, {
-        userId,
-        entityName: obs.entityName,
-        newObservations: obs.contents
-      });
-
-      if (result.length > 0) {
-        results.push({
-          entityName: obs.entityName,
-          addedObservations: obs.contents
-        });
-      } else {
+      if (!matchedNames.has(obs.entityName)) {
         throw new Error(`Entity with name ${obs.entityName} not found for user ${userId}`);
       }
     }
-
-    return results;
+    return result.map(record => ({
+      entityName: record.entityName,
+      addedObservations: record.addedObservations
+    }));
   }
 
   async deleteEntities(userId: string, entityNames: string[]): Promise<void> {
@@ -220,19 +215,16 @@ class Neo4jKnowledgeGraphManager {
   }
 
   async deleteObservations(userId: string, deletions: { entityName: string; observations: string[] }[]): Promise<void> {
-    for (const deletion of deletions) {
-      const query = `
-        MATCH (e:Entity:UserEntity {name: $entityName, userId: $userId})
-        SET e.observations = [x IN e.observations WHERE NOT x IN $observationsToDelete],
-            e.updatedAt = datetime()
-      `;
-
-      await this.executeQuery(query, {
-        userId,
-        entityName: deletion.entityName,
-        observationsToDelete: deletion.observations
-      });
-    }
+    const query = `
+      UNWIND $deletions AS deletion
+      MATCH (e:Entity:UserEntity {name: deletion.entityName, userId: $userId})
+      SET e.observations = [x IN e.observations WHERE NOT x IN deletion.observations],
+          e.updatedAt = datetime()
+    `;
+    await this.executeQuery(query, {
+      userId,
+      deletions
+    });
   }
 
   async deleteRelations(userId: string, relations: Relation[]): Promise<void> {
