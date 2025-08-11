@@ -1,0 +1,364 @@
+{
+    "schemaVersion": "0.1.0",
+    "name": "google-workspace-mcp-server",
+    "version": "1.0.0",
+    "description": "A production-ready MCP server providing comprehensive Google Workspace integration with Gmail, Drive, Calendar, Sheets, Slides, and Tasks through secure OAuth 2.0 authentication.",
+    "author": {
+        "name": "3xCaffeine",
+        "url": "https://github.com/3xCaffeine"
+    },
+    "homepage": "https://github.com/3xCaffeine/mcp-server",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/3xCaffeine/mcp-server.git"
+    },
+    "license": "MIT",
+    "keywords": [
+        "google-workspace",
+        "gmail",
+        "google-drive",
+        "google-calendar",
+        "google-sheets",
+        "google-slides",
+        "google-tasks",
+        "oauth2",
+        "productivity",
+        "automation",
+        "email",
+        "documents",
+        "spreadsheets",
+        "presentations"
+    ],
+    "categories": [
+        "productivity",
+        "google",
+        "email",
+        "calendar",
+        "documents",
+        "automation"
+    ],
+    "server": {
+        "executable": "node",
+        "args": [
+            "server.js"
+        ],
+        "env": {
+            "NODE_ENV": "production"
+        }
+    },
+    "capabilities": {
+        "tools": {
+            "listChanged": false
+        },
+        "resources": {
+            "subscribe": false,
+            "listChanged": false
+        },
+        "prompts": {
+            "listChanged": false
+        },
+        "logging": {}
+    },
+    "tools": [
+        {
+            "name": "echo",
+            "description": "Echo a message back to the user"
+        },
+        {
+            "name": "get_user_info",
+            "description": "Get information about the authenticated user"
+        },
+        {
+            "name": "roll_dice",
+            "description": "Roll an N-sided die"
+        },
+        {
+            "name": "search_gmail_emails",
+            "description": "Search emails using Gmail query syntax"
+        },
+        {
+            "name": "read_gmail_email",
+            "description": "Read an email by its message ID"
+        },
+        {
+            "name": "modify_gmail_email",
+            "description": "Modify email labels"
+        },
+        {
+            "name": "delete_gmail_email",
+            "description": "Delete an email by its message ID"
+        },
+        {
+            "name": "list_gmail_labels",
+            "description": "List all Gmail labels"
+        },
+        {
+            "name": "create_gmail_label",
+            "description": "Create a new Gmail label"
+        },
+        {
+            "name": "update_gmail_label",
+            "description": "Update an existing Gmail label"
+        },
+        {
+            "name": "delete_gmail_label",
+            "description": "Delete a Gmail label"
+        },
+        {
+            "name": "get_or_create_gmail_label",
+            "description": "Get an existing label or create it if it doesn't exist"
+        },
+        {
+            "name": "send_gmail_email",
+            "description": "Send an email using Gmail API with advanced options"
+        },
+        {
+            "name": "draft_gmail_email",
+            "description": "Create a draft email using Gmail API"
+        },
+        {
+            "name": "batch_modify_gmail_emails",
+            "description": "Modify multiple emails at once"
+        },
+        {
+            "name": "batch_delete_gmail_emails",
+            "description": "Delete multiple emails at once"
+        },
+        {
+            "name": "search_drive_files",
+            "description": "Search files and folders in Google Drive using query syntax"
+        },
+        {
+            "name": "get_drive_file_content",
+            "description": "Retrieve the content of a specific Google Drive file by ID"
+        },
+        {
+            "name": "list_drive_items",
+            "description": "List files and folders in a specific Google Drive folder"
+        },
+        {
+            "name": "create_drive_file",
+            "description": "Create a new file in Google Drive, with content or from a URL"
+        },
+        {
+            "name": "list_calendars",
+            "description": "List all calendars accessible to the authenticated user"
+        },
+        {
+            "name": "get_events",
+            "description": "List events from a specified Google Calendar within a time range"
+        },
+        {
+            "name": "create_event",
+            "description": "Create a new event in a Google Calendar"
+        },
+        {
+            "name": "modify_event",
+            "description": "Modify an existing event in a Google Calendar"
+        },
+        {
+            "name": "delete_event",
+            "description": "Delete an event from a Google Calendar"
+        },
+        {
+            "name": "get_event",
+            "description": "Get details of a single event by its ID from a Google Calendar"
+        },
+        {
+            "name": "list_spreadsheets",
+            "description": "List spreadsheets from Google Drive that the user has access to"
+        },
+        {
+            "name": "get_spreadsheet_info",
+            "description": "Get information about a specific spreadsheet including its sheets"
+        },
+        {
+            "name": "read_sheet_values",
+            "description": "Read values from a specific range in a Google Sheet"
+        },
+        {
+            "name": "modify_sheet_values",
+            "description": "Modify values in a specific range of a Google Sheet - can write, update, or clear values"
+        },
+        {
+            "name": "create_spreadsheet",
+            "description": "Create a new Google Spreadsheet"
+        },
+        {
+            "name": "create_sheet",
+            "description": "Create a new sheet within an existing spreadsheet"
+        },
+        {
+            "name": "create_presentation",
+            "description": "Create a new Google Slides presentation"
+        },
+        {
+            "name": "get_presentation",
+            "description": "Get details about a Google Slides presentation"
+        },
+        {
+            "name": "batch_update_presentation",
+            "description": "Apply batch updates to a Google Slides presentation"
+        },
+        {
+            "name": "get_page",
+            "description": "Get details about a specific page (slide) in a presentation"
+        },
+        {
+            "name": "get_page_thumbnail",
+            "description": "Generate a thumbnail URL for a specific page (slide) in a presentation"
+        },
+        {
+            "name": "list_task_lists",
+            "description": "List all task lists for the user"
+        },
+        {
+            "name": "get_task_list",
+            "description": "Get details of a specific task list"
+        },
+        {
+            "name": "create_task_list",
+            "description": "Create a new task list"
+        },
+        {
+            "name": "update_task_list",
+            "description": "Update an existing task list"
+        },
+        {
+            "name": "delete_task_list",
+            "description": "Delete a task list. Note: This will also delete all tasks in the list"
+        },
+        {
+            "name": "list_tasks",
+            "description": "List all tasks in a specific task list"
+        },
+        {
+            "name": "get_task",
+            "description": "Get details of a specific task"
+        },
+        {
+            "name": "create_task",
+            "description": "Create a new task in a task list"
+        },
+        {
+            "name": "update_task",
+            "description": "Update an existing task"
+        },
+        {
+            "name": "delete_task",
+            "description": "Delete a task from a task list"
+        },
+        {
+            "name": "move_task",
+            "description": "Move a task to a different position or parent within the same list, or to a different list"
+        },
+        {
+            "name": "clear_completed_tasks",
+            "description": "Clear all completed tasks from a task list. The tasks will be marked as hidden"
+        }
+    ],
+    "configuration": {
+        "required": [
+            {
+                "name": "GOOGLE_CLIENT_ID",
+                "description": "Google OAuth 2.0 Client ID from Google Cloud Console"
+            },
+            {
+                "name": "GOOGLE_CLIENT_SECRET",
+                "description": "Google OAuth 2.0 Client Secret from Google Cloud Console"
+            },
+            {
+                "name": "BETTER_AUTH_URL",
+                "description": "Base URL for Better Auth (e.g., https://your-domain.com)"
+            },
+            {
+                "name": "BETTER_AUTH_SECRET",
+                "description": "Secret key for Better Auth session management"
+            },
+            {
+                "name": "DATABASE_URL",
+                "description": "PostgreSQL database connection string"
+            }
+        ],
+        "optional": [
+            {
+                "name": "PGHOST",
+                "description": "PostgreSQL host (alternative to DATABASE_URL)"
+            },
+            {
+                "name": "PGUSER",
+                "description": "PostgreSQL username (alternative to DATABASE_URL)"
+            },
+            {
+                "name": "PGPASSWORD",
+                "description": "PostgreSQL password (alternative to DATABASE_URL)"
+            },
+            {
+                "name": "PGDATABASE",
+                "description": "PostgreSQL database name (alternative to DATABASE_URL)"
+            },
+            {
+                "name": "PGPORT",
+                "description": "PostgreSQL port (alternative to DATABASE_URL, default: 5432)"
+            }
+        ]
+    },
+    "authentication": {
+        "type": "oauth2",
+        "provider": "google",
+        "scopes": [
+            "openid",
+            "email",
+            "profile",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/gmail.send",
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/drive.readonly",
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/spreadsheets.readonly",
+            "https://www.googleapis.com/auth/presentations",
+            "https://www.googleapis.com/auth/presentations.readonly",
+            "https://www.googleapis.com/auth/tasks",
+            "https://www.googleapis.com/auth/tasks.readonly"
+        ]
+    },
+    "deployment": {
+        "healthCheck": "/api/health",
+        "dependencies": {
+            "node": ">=22.0.0",
+            "postgresql": ">=13.0.0"
+        },
+        "services": [
+            {
+                "name": "web",
+                "build": {
+                    "command": "npm run build"
+                },
+                "start": {
+                    "command": "npm start"
+                },
+                "healthCheck": {
+                    "path": "/api/health",
+                    "interval": 30,
+                    "timeout": 10,
+                    "retries": 3
+                }
+            },
+            {
+                "name": "database",
+                "type": "postgresql",
+                "version": ">=13.0.0"
+            }
+        ]
+    }
+}
