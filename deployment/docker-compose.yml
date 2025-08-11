@@ -1,0 +1,28 @@
+---
+services:
+  # MCP Server - Next.js application
+  mcp-server:
+    image: mcp-server:latest
+    container_name: mcp-server
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  # Caddy reverse proxy
+  caddy:
+    image: caddy:latest
+    container_name: caddy-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    depends_on:
+      - mcp-server
+
+volumes:
+  caddy_data:

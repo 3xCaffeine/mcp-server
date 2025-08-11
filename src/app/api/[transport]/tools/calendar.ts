@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 import {
   ListCalendarsSchema,
@@ -13,6 +14,24 @@ import {
   deleteEvent,
   getEvent,
 } from "@/lib/toolset/google/calendar";
+
+// ToolServer interface and type aliases
+type ToolHandler<Input> = (input: Input) => Promise<{ content: Array<{ type: string; text: string }> }>;
+interface ToolServer {
+  tool<Input>(
+    name: string,
+    description: string,
+    schema: object,
+    handler: ToolHandler<Input>
+  ): void;
+}
+type ListCalendarsInput = z.infer<typeof ListCalendarsSchema>;
+type GetEventsInput = z.infer<typeof GetEventsSchema>;
+type CreateEventInput = z.infer<typeof CreateEventSchema>;
+type ModifyEventInput = z.infer<typeof ModifyEventSchema>;
+type DeleteEventInput = z.infer<typeof DeleteEventSchema>;
+type GetEventInput = z.infer<typeof GetEventSchema>;
+
 
 export const calendarToolsCapabilities = {
   list_calendars: {
@@ -35,14 +54,17 @@ export const calendarToolsCapabilities = {
   },
 };
 
-type ListCalendarsInput = z.infer<typeof ListCalendarsSchema>;
-type GetEventsInput = z.infer<typeof GetEventsSchema>;
-type CreateEventInput = z.infer<typeof CreateEventSchema>;
-type ModifyEventInput = z.infer<typeof ModifyEventSchema>;
-type DeleteEventInput = z.infer<typeof DeleteEventSchema>;
-type GetEventInput = z.infer<typeof GetEventSchema>;
 
-export function registerCalendarTools(server: any, session: { userId: string; scopes?: string }) {
+interface ToolServer {
+  tool(
+    name: string,
+    description: string,
+    schema: object,
+    handler: (...args: any[]) => Promise<any>
+  ): void;
+}
+
+export function registerCalendarTools(server: ToolServer, session: { userId: string; scopes?: string }) {
   server.tool(
     "list_calendars",
     "List all calendars accessible to the authenticated user",

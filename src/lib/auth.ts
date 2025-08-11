@@ -40,6 +40,16 @@ export const auth = betterAuth({
                 "https://www.googleapis.com/auth/calendar.events",
                 "https://www.googleapis.com/auth/calendar.readonly",
                 "https://www.googleapis.com/auth/calendar.events.readonly",
+                // Sheets scopes
+                "https://www.googleapis.com/auth/spreadsheets",
+                "https://www.googleapis.com/auth/spreadsheets.readonly",
+                // Slides scopes
+                "https://www.googleapis.com/auth/presentations",
+                "https://www.googleapis.com/auth/presentations.readonly",
+                // Tasks scopes
+                "https://www.googleapis.com/auth/tasks",
+                "https://www.googleapis.com/auth/tasks.readonly",
+                "https://www.googleapis.com/auth/calendar.events.readonly",
                 // Forms scopes
                 "https://www.googleapis.com/auth/forms.body",
                 "https://www.googleapis.com/auth/forms.body.readonly",

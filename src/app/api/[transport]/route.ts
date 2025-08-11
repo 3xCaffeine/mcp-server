@@ -2,9 +2,15 @@ import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
+
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
+import { registerSheetsTools, sheetsToolsCapabilities } from "./tools/sheets";
+import { registerSlidesTools, slidesToolsCapabilities } from "./tools/slides";
+import { registerTasksTools, tasksToolsCapabilities } from "./tools/tasks";
+import { registerMemoryTools, memoryToolsCapabilities } from "./tools/memory";
+import { registerSequentialThinkingTool, sequentialThinkingToolsCapabilities } from "./tools/sequentialthinking";
 import { registerFormsTools, formsToolsCapabilities } from "./tools/gforms";
 import { registerDocsTools, docsToolsCapabilities } from "./tools/gdocs";
 
@@ -75,6 +81,16 @@ const handler = async (req: Request) => {
             registerGdriveTools(server, session);
             // Register Google Calendar tools
             registerCalendarTools(server, session);
+            // Register Google Sheets tools
+            registerSheetsTools(server, session);
+            // Register Google Slides tools
+            registerSlidesTools(server, session);
+            // Register Google Tasks tools
+            registerTasksTools(server, session);
+            // Register Memory tools
+            registerMemoryTools(server, session);
+            // Register Sequential Thinking tool
+            registerSequentialThinkingTool(server, session);
             // Register Google Forms tools
             registerFormsTools(server, session);
             registerDocsTools(server, session); // ✅ NEW!
@@ -94,6 +110,11 @@ const handler = async (req: Request) => {
                     ...gmailToolsCapabilities,
                     ...gdriveToolsCapabilities,
                     ...calendarToolsCapabilities,
+                    ...sheetsToolsCapabilities,
+                    ...slidesToolsCapabilities,
+                    ...tasksToolsCapabilities,
+                    ...memoryToolsCapabilities,
+                    ...sequentialThinkingToolsCapabilities,
                     ...formsToolsCapabilities,
                     ...docsToolsCapabilities,
                 },
