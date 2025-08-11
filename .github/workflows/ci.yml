@@ -27,6 +27,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create .env file
+        run: |
+          echo "BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}" >> .env
+          echo "BETTER_AUTH_URL=${{ secrets.BETTER_AUTH_URL }}" >> .env
+          echo "NEXT_PUBLIC_AUTH_URL=${{ secrets.NEXT_PUBLIC_AUTH_URL }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "PGHOST=${{ secrets.PGHOST }}" >> .env
+          echo "PGUSER=${{ secrets.PGUSER }}" >> .env
+          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
+          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
+          echo "PGPORT=${{ secrets.PGPORT }}" >> .env
+          echo "NEO4J_URI=${{ secrets.NEO4J_URI }}" >> .env
+          echo "NEO4J_USERNAME=${{ secrets.NEO4J_USERNAME }}" >> .env
+          echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> .env
+          echo "NEO4J_DATABASE=${{ secrets.NEO4J_DATABASE }}" >> .env
+          echo "AURA_INSTANCEID=${{ secrets.AURA_INSTANCEID }}" >> .env
+          echo "AURA_INSTANCENAME=${{ secrets.AURA_INSTANCENAME }}" >> .env
+          echo "UPSTASH_REDIS_REST_URL=${{ secrets.UPSTASH_REDIS_REST_URL }}" >> .env
+          echo "UPSTASH_REDIS_REST_TOKEN=${{ secrets.UPSTASH_REDIS_REST_TOKEN }}" >> .env
+          echo "PHONE_NUMBER=${{ secrets.PHONE_NUMBER }}" >> .env
+          echo "COUNTRY_CODE=${{ secrets.COUNTRY_CODE }}" >> .env
         
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -34,28 +57,6 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/3xcaffeine/${{ env.IMAGE_NAME }}:latest
-          build-args: |
-            BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
-            BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
-            NEXT_PUBLIC_AUTH_URL: ${{ secrets.NEXT_PUBLIC_AUTH_URL }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-            GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-            PGHOST: ${{ secrets.PGHOST }}
-            PGUSER: ${{ secrets.PGUSER }}
-            PGPASSWORD: ${{ secrets.PGPASSWORD }}
-            PGDATABASE: ${{ secrets.PGDATABASE }}
-            PGPORT: ${{ secrets.PGPORT }}
-            NEO4J_URI: ${{ secrets.NEO4J_URI }}
-            NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-            NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-            NEO4J_DATABASE: ${{ secrets.NEO4J_DATABASE }}
-            AURA_INSTANCEID: ${{ secrets.AURA_INSTANCEID }}
-            AURA_INSTANCENAME: ${{ secrets.AURA_INSTANCENAME }}
-            UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-            UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-            PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
-            COUNTRY_CODE: ${{ secrets.COUNTRY_CODE }}
 
       - name: Log out from GHCR
         run: docker logout
