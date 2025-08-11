@@ -40,6 +40,7 @@ const handler = async (req: Request) => {
             );
 
             // User info tool - demonstrates access to user session
+            // TODO: this should also give the user email
             server.tool(
                 "get_user_info",
                 "Get information about the authenticated user",
