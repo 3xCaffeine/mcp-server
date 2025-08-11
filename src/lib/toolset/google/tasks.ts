@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { google } from "googleapis";
+import { google, tasks_v1 } from "googleapis";
 import { getGoogleOAuthClient } from "../googleoauth-client";
 
 // Zod Schema definitions for Google Tasks tools
@@ -99,7 +99,7 @@ export async function listTaskLists(userId: string, userGoogleEmail: string, max
     const oauth2Client = await getGoogleOAuthClient(userId);
     const tasks = google.tasks({ version: 'v1', auth: oauth2Client });
 
-    const params: any = {};
+    const params: tasks_v1.Params$Resource$Tasklists$List = {};
     if (maxResults !== undefined) {
         params.maxResults = maxResults;
     }
@@ -225,7 +225,7 @@ export async function listTasks(
     const oauth2Client = await getGoogleOAuthClient(userId);
     const tasks = google.tasks({ version: 'v1', auth: oauth2Client });
 
-    const params: any = { tasklist: taskListId };
+    const params: tasks_v1.Params$Resource$Tasks$List = { tasklist: taskListId };
 
     if (options.maxResults !== undefined) params.maxResults = options.maxResults;
     if (options.pageToken) params.pageToken = options.pageToken;
@@ -307,11 +307,12 @@ export async function createTask(
     const oauth2Client = await getGoogleOAuthClient(userId);
     const tasks = google.tasks({ version: 'v1', auth: oauth2Client });
 
-    const body: any = { title };
+    const body: tasks_v1.Schema$Task = { title };
     if (options.notes) body.notes = options.notes;
     if (options.due) body.due = options.due;
 
-    const params: any = {
+
+    const params: tasks_v1.Params$Resource$Tasks$Insert = {
         tasklist: taskListId,
         requestBody: body,
     };
@@ -357,23 +358,14 @@ export async function updateTask(
     });
     const currentTask = currentTaskResponse.data;
 
-    const body: any = {
+
+    const body: tasks_v1.Schema$Task = {
         id: taskId,
         title: updates.title !== undefined ? updates.title : currentTask.title || "",
         status: updates.status !== undefined ? updates.status : currentTask.status || "needsAction",
+        notes: updates.notes !== undefined ? updates.notes : currentTask.notes,
+        due: updates.due !== undefined ? updates.due : currentTask.due,
     };
-
-    if (updates.notes !== undefined) {
-        body.notes = updates.notes;
-    } else if (currentTask.notes) {
-        body.notes = currentTask.notes;
-    }
-
-    if (updates.due !== undefined) {
-        body.due = updates.due;
-    } else if (currentTask.due) {
-        body.due = currentTask.due;
-    }
 
     const response = await tasks.tasks.update({
         tasklist: taskListId,
@@ -425,13 +417,14 @@ export async function moveTask(
     const oauth2Client = await getGoogleOAuthClient(userId);
     const tasks = google.tasks({ version: 'v1', auth: oauth2Client });
 
-    const params: any = {
+
+    const params: tasks_v1.Params$Resource$Tasks$Move = {
         tasklist: taskListId,
         task: taskId,
     };
     if (options.parent) params.parent = options.parent;
     if (options.previous) params.previous = options.previous;
-    if (options.destinationTaskList) params.destinationTasklist = options.destinationTaskList;
+    if (options.destinationTaskList) (params as any).destinationTasklist = options.destinationTaskList;
 
     const response = await tasks.tasks.move(params);
     const task = response.data;
