@@ -1,0 +1,4 @@
+
+yourdomain.com {
+    reverse_proxy mcp-server:3000
+}
