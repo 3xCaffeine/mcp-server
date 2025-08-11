@@ -5,6 +5,7 @@ import { z } from "zod";
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
+import { registerFormsTools, formsToolsCapabilities } from "./tools/gforms";
 
 
 const handler = async (req: Request) => {
@@ -74,6 +75,8 @@ const handler = async (req: Request) => {
             registerGdriveTools(server, session);
             // Register Google Calendar tools
             registerCalendarTools(server, session);
+            // Register Google Forms tools
+            registerFormsTools(server, session);
         },
         {
             capabilities: {
@@ -90,6 +93,7 @@ const handler = async (req: Request) => {
                     ...gmailToolsCapabilities,
                     ...gdriveToolsCapabilities,
                     ...calendarToolsCapabilities,
+                    ...formsToolsCapabilities,
                 },
             },
         },
