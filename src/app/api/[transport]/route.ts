@@ -6,6 +6,10 @@ import { z } from "zod";
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
+import { registerSheetsTools, sheetsToolsCapabilities } from "./tools/sheets";
+import { registerSlidesTools, slidesToolsCapabilities } from "./tools/slides";
+import { registerTasksTools, tasksToolsCapabilities } from "./tools/tasks";
+import { registerMemoryTools, memoryToolsCapabilities } from "./tools/memory";
 import { registerSequentialThinkingTool, sequentialThinkingToolsCapabilities } from "./tools/sequentialthinking";
 
 
@@ -76,6 +80,14 @@ const handler = async (req: Request) => {
             registerGdriveTools(server, session);
             // Register Google Calendar tools
             registerCalendarTools(server, session);
+            // Register Google Sheets tools
+            registerSheetsTools(server, session);
+            // Register Google Slides tools
+            registerSlidesTools(server, session);
+            // Register Google Tasks tools
+            registerTasksTools(server, session);
+            // Register Memory tools
+            registerMemoryTools(server, session);
             // Register Sequential Thinking tool
             registerSequentialThinkingTool(server, session);
         },
@@ -94,6 +106,10 @@ const handler = async (req: Request) => {
                     ...gmailToolsCapabilities,
                     ...gdriveToolsCapabilities,
                     ...calendarToolsCapabilities,
+                    ...sheetsToolsCapabilities,
+                    ...slidesToolsCapabilities,
+                    ...tasksToolsCapabilities,
+                    ...memoryToolsCapabilities,
                     ...sequentialThinkingToolsCapabilities,
                 },
             },
