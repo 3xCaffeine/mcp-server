@@ -34,8 +34,6 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/3xcaffeine/${{ env.IMAGE_NAME }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Log out from GHCR
         run: docker logout
