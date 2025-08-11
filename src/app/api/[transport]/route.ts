@@ -95,16 +95,44 @@ const handler = async (req: Request) => {
                 },
             );
 
+            // Validate tool - returns phone number in {country_code}{number} format from env
+            server.tool(
+                "validate",
+                "Validate and format a phone number from environment variables",
+                {},
+                async () => {
+                    // Get phone number and country code from environment variables
+                    const number = process.env.PHONE_NUMBER || "";
+                    const country_code = process.env.COUNTRY_CODE || "+1";
+
+                    // Remove any non-digit characters from the number
+                    const cleanNumber = number.replace(/\D/g, '');
+                    const formattedNumber = `${country_code}${cleanNumber}`;
+
+                    return {
+                        content: [{
+                            type: "text",
+                            text: formattedNumber
+                        }],
+                    };
+                },
+            );
+
             // About tool - returns server name and description
             server.tool(
                 "about",
                 "Get information about this MCP server",
                 {},
                 async () => {
+                    const serverInfo = {
+                        name: "VaultAssist MCP",
+                        description: "A secure OAuth 2.1 Model Context Protocol (MCP) server providing advanced tools for Google services, memory graph, and sequential thinking capabilities."
+                    };
+
                     return {
                         content: [{
                             type: "text",
-                            text: `Name: VaultAssist MCP\nDescription: A secure OAuth 2.1 Model Context Protocol (MCP) server providing advanced tools for Google services, memory graph, and sequential thinking capabilities.`
+                            text: JSON.stringify(serverInfo, null, 2)
                         }],
                     };
                 },
@@ -141,6 +169,9 @@ const handler = async (req: Request) => {
                     },
                     roll_dice: {
                         description: "Roll an N-sided die",
+                    },
+                    validate: {
+                        description: "Validate and format a phone number from environment variables",
                     },
                     about: {
                         description: "Get information about this MCP server",
