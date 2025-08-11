@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
+
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
@@ -9,6 +10,7 @@ import { registerSheetsTools, sheetsToolsCapabilities } from "./tools/sheets";
 import { registerSlidesTools, slidesToolsCapabilities } from "./tools/slides";
 import { registerTasksTools, tasksToolsCapabilities } from "./tools/tasks";
 import { registerMemoryTools, memoryToolsCapabilities } from "./tools/memory";
+import { registerSequentialThinkingTool, sequentialThinkingToolsCapabilities } from "./tools/sequentialthinking";
 
 
 const handler = async (req: Request) => {
@@ -86,6 +88,8 @@ const handler = async (req: Request) => {
             registerTasksTools(server, session);
             // Register Memory tools
             registerMemoryTools(server, session);
+            // Register Sequential Thinking tool
+            registerSequentialThinkingTool(server, session);
         },
         {
             capabilities: {
@@ -106,6 +110,7 @@ const handler = async (req: Request) => {
                     ...slidesToolsCapabilities,
                     ...tasksToolsCapabilities,
                     ...memoryToolsCapabilities,
+                    ...sequentialThinkingToolsCapabilities,
                 },
             },
         },
