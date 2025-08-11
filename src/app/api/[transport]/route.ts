@@ -1,8 +1,11 @@
 import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
+
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
 import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
+import { registerCalendarTools, calendarToolsCapabilities } from "./tools/calendar";
+
 
 const handler = async (req: Request) => {
     // Get the session using the access token sent from the MCP client
@@ -68,6 +71,8 @@ const handler = async (req: Request) => {
             registerGmailTools(server, session);
             // Register Google Drive tools
             registerGdriveTools(server, session);
+            // Register Google Calendar tools
+            registerCalendarTools(server, session);
         },
         {
             capabilities: {
@@ -83,6 +88,7 @@ const handler = async (req: Request) => {
                     },
                     ...gmailToolsCapabilities,
                     ...gdriveToolsCapabilities,
+                    ...calendarToolsCapabilities,
                 },
             },
         },

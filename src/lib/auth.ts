@@ -23,17 +23,23 @@ export const auth = betterAuth({
                 "openid",
                 "email",
                 "profile",
+                // Gmail scopes
                 "https://www.googleapis.com/auth/gmail.modify",
                 "https://www.googleapis.com/auth/gmail.settings.basic",
                 "https://www.googleapis.com/auth/userinfo.email",
                 "https://www.googleapis.com/auth/userinfo.profile",
                 "https://www.googleapis.com/auth/gmail.send",
                 "https://mail.google.com/",
-                "https://www.googleapis.com/auth/gmail.modify",
                 "https://www.googleapis.com/auth/gmail.compose",
+                // Drive scopes
                 "https://www.googleapis.com/auth/drive.readonly",
                 "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/drive.file"
+                "https://www.googleapis.com/auth/drive.file",
+                // Calendar scopes
+                "https://www.googleapis.com/auth/calendar",
+                "https://www.googleapis.com/auth/calendar.events",
+                "https://www.googleapis.com/auth/calendar.readonly",
+                "https://www.googleapis.com/auth/calendar.events.readonly"
             ],
         },
     },
