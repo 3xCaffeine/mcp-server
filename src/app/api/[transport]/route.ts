@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 import { registerGmailTools, gmailToolsCapabilities } from "./tools/gmail";
+import { registerGdriveTools, gdriveToolsCapabilities } from "./tools/gdrive";
 
 const handler = async (req: Request) => {
     // Get the session using the access token sent from the MCP client
@@ -65,6 +66,8 @@ const handler = async (req: Request) => {
 
             // Register Gmail tools
             registerGmailTools(server, session);
+            // Register Google Drive tools
+            registerGdriveTools(server, session);
         },
         {
             capabilities: {
@@ -79,6 +82,7 @@ const handler = async (req: Request) => {
                         description: "Roll an N-sided die",
                     },
                     ...gmailToolsCapabilities,
+                    ...gdriveToolsCapabilities,
                 },
             },
         },
