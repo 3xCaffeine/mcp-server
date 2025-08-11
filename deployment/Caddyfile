@@ -1,4 +1,4 @@
 
-yourdomain.com {
+mcp.rycerz.es {
     reverse_proxy mcp-server:3000
 }
