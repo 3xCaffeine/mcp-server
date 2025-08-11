@@ -75,6 +75,21 @@ const handler = async (req: Request) => {
                 },
             );
 
+            // About tool - returns server name and description
+            server.tool(
+                "about",
+                "Get information about this MCP server",
+                {},
+                async () => {
+                    return {
+                        content: [{
+                            type: "text",
+                            text: `Name: VaultAssist MCP\nDescription: A secure OAuth 2.1 Model Context Protocol (MCP) server providing advanced tools for Google services, memory graph, and sequential thinking capabilities.`
+                        }],
+                    };
+                },
+            );
+
             // Register Gmail tools
             registerGmailTools(server, session);
             // Register Google Drive tools
@@ -106,6 +121,9 @@ const handler = async (req: Request) => {
                     },
                     roll_dice: {
                         description: "Roll an N-sided die",
+                    },
+                    about: {
+                        description: "Get information about this MCP server",
                     },
                     ...gmailToolsCapabilities,
                     ...gdriveToolsCapabilities,

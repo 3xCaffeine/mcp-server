@@ -70,7 +70,7 @@ export default function Home() {
 
             {/* Main Heading */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent">
-              The Thing MCP Server
+              VaultAssist MCP Server
             </h1>
 
             <p className="text-xl sm:text-2xl text-muted-foreground mb-4 leading-relaxed">

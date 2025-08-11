@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Thing MCP Server",
+  title: "VaultAssist MCP Server",
   description: "A secure OAuth 2.1 Model Context Protocol (MCP) server providing advanced tools for Google services (Gmail, Drive, Calendar, Sheets, Slides, Tasks), memory graph, and sequential thinking capabilities.",
 };
 
