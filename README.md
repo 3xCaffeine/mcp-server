@@ -3,15 +3,17 @@
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![Better Auth](https://shields.io/badge/Better%20Auth-000?logo=square&style=for-the-badge)
+![Upstash Redis](https://img.shields.io/badge/Upstash-00E9A3?logo=upstash&logoColor=000&style=for-the-badge)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-FFF?logo=betterauth&logoColor=000&style=for-the-badge)
+![Drizzle Badge](https://img.shields.io/badge/Drizzle-C5F74F?logo=drizzle&logoColor=000&style=for-the-badge)
 ![Neo4J](https://img.shields.io/badge/Neo4j-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)
-![MCP SDK](https://shields.io/badge/Vercel%20MCP%20SDK-000?logo=vercel&style=for-the-badge)
+![Vercel MCP SDK](https://img.shields.io/badge/Vercel%20MCP%20SDK-000?logo=modelcontextprotocol&logoColor=fff&style=for-the-badge)
 ![Caddy](https://img.shields.io/badge/Caddy-7F00FF.svg?style=for-the-badge&logo=Caddy&logoColor=white)
 ![Bun](https://img.shields.io/badge/Bun-000000.svg?style=for-the-badge&logo=Bun&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-1997B5&.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Google](https://img.shields.io/badge/google%20Workspace-%2388171A?style=for-the-badge&logo=google&logoColor=white)
+![Google Badge](https://img.shields.io/badge/Google%20API-4285F4?logo=google&logoColor=fff&style=for-the-badge)
+![Zod Badge](https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=fff&style=for-the-badge)
 
 A **Model Context Protocol (MCP) server** that provides comprehensive Google Workspace integration for your personal AI assistant with vault-level security. 
 
@@ -134,10 +136,10 @@ graph TB
     GraphDB --> GraphStore
 
     %% Styling
-    classDef clientNodes fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef serverNodes fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef apiNodes fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef infraNodes fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef clientNodes fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
+    classDef serverNodes fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
+    classDef apiNodes fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
+    classDef infraNodes fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000000
 
     class VSCode,Other clientNodes
     class Auth,Router,Gmail,Drive,Docs,Calendar,Sheets,Slides,Tasks,Memory,Sequential,OAuth,Schema,DB,GraphDB,SessionMgmt serverNodes
@@ -147,14 +149,14 @@ graph TB
 
 ## Features
 
-### **Enterprise-Grade Security**
+### **Secure**
 - OAuth 2.1 authentication with encrypted token storage
 - Secure session management and automatic token refresh
 - Input validation with Zod schemas and CORS protection
 - Environment-based secrets management
 
 
-### **Complete Google Workspace Coverage**
+### **Google Workspace Coverage**
 - **Gmail**: Full email management with search, labels, and batch operations
 - **Drive**: File operations with Office format support and URL imports
 - **Docs**: Create, edit, search, and batch update Google Docs with advanced content manipulation
@@ -195,18 +197,7 @@ mcp-server/
 └── package.json
 ```
 
-### **Key Technologies**
-- **Next.js 15.4.6**: Modern React framework with App Router
-- **TypeScript**: Full type safety and developer experience
-- **Vercel MCP SDK**: Official Model Context Protocol implementation and libraries
-- **Better Auth**: Comprehensive authentication solution with OAuth 2.1
-- **Drizzle ORM**: Type-safe database operations
-- **PostgreSQL**: Reliable database for user sessions and tokens
-- **Neo4j**: Graph database for intelligent relationship mapping and context management
-- **Upstash Redis**: High-performance caching and session storage
-- **Zod**: Runtime type validation for API schemas
-- **Google APIs**: Official Google client libraries
-- **MCP Handler**: Model Context Protocol implementation
+
 
 ## Prerequisites
 
