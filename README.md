@@ -22,6 +22,7 @@ Built with **Next.js**, **TypeScript**, **Better Auth**, and **Vercel's MCP SDK*
 ## Overview
 
 VaultAssist acts as a secure bridge between AI assistants and Google Workspace services, enabling seamless automation and data access through a vault-secured, authenticated API. The server uses **Better Auth** for robust user session management, **PostgreSQL** for persistent data storage, and **Graph DBs** for intelligent relationship mapping across your personal data ecosystem.
+VaultAssist acts as a secure bridge between AI assistants and Google Workspace services, enabling seamless automation and data access through a vault-secured, authenticated API. The server supports multiple users, with each user's data, sessions, and Google Workspace access fully isolated. **Better Auth** provides robust user session management, **PostgreSQL** ensures persistent, per-user data storage, and **Graph DBs** enable intelligent, user-specific relationship mapping across your personal data ecosystem.
 
 ```mermaid
 graph TB
@@ -154,6 +155,7 @@ graph TB
 - Secure session management and automatic token refresh
 - Input validation with Zod schemas and CORS protection
 - Environment-based secrets management
+- Multi-user isolation: Each user has a fully isolated workspace, with strict separation of sessions, tokens, and data. No cross-user access is possible. All Google Workspace API calls and memory graphs are partitioned per user for maximum privacy.
 
 
 ### **Google Workspace Coverage**
@@ -179,6 +181,17 @@ graph TB
 - Support for multiple MCP transport methods such as Streamable HTTP & SSE (deprecated)
 
 ## Architecture
+
+### **Multi-User Architecture & Isolated Access**
+
+VaultAssist is designed for secure, multi-user operation. Each user authenticates via OAuth 2.1 and is assigned a unique, encrypted session. All Google Workspace API calls are performed strictly on behalf of the authenticated user, ensuring that:
+
+- **Data Isolation**: User data, tokens, and memory graphs are partitioned and encrypted per user. No user can access another user's data or sessions.
+- **Session Security**: Sessions are managed with Better Auth, providing advanced session isolation and automatic token refresh for each user.
+- **Per-User API Access**: All Google API operations are scoped to the authenticated user's account, with no shared credentials.
+- **Database & Graph Partitioning**: PostgreSQL and graph database entries are keyed and isolated per user, preventing cross-user data leakage.
+
+This architecture enables VaultAssist to safely serve multiple users in parallel, with strong guarantees of privacy and access control.
 
 ### **Project Structure**
 ```
@@ -409,4 +422,10 @@ Open up the VS Code Command Palette > MCP:Open User Configuration and paste the 
 | `sequentialthinking` | Dynamic, reflective problem-solving. |
 
 
-
+## Credits
+- [run-llama/mcp-nextjs](https://github.com/run-llama/mcp-nextjs) - Next.js OAuth MCP implementation
+- [NapthaAI/http-oauth-mcp-server](https://github.com/NapthaAI/http-oauth-mcp-server) - MCP spec authorization extension
+- [GongRzhe/Gmail-MCP-Server](https://github.com/GongRzhe/Gmail-MCP-Server) - Gmail tools 
+- [j3k0/mcp-google-workspace](https://github.com/j3k0/mcp-google-workspace) - Gmail & Calendar 
+- [taylorwilsdon/google_workspace_mcp](https://github.com/taylorwilsdon/google_workspace_mcp/) - Most of the google services were inspired by this
+- [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers/) - sequential thinking & knowledge graph based memory
