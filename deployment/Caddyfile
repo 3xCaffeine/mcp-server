@@ -3,6 +3,7 @@ mcp.rycerz.es {
     reverse_proxy 172.17.0.1:3000
 }
 
+# Adjust accordingly for Docker
 # mcp.rycerz.es {
 #    reverse_proxy mcp-server:3000
 # }

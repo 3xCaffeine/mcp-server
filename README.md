@@ -1,10 +1,17 @@
 # VaultAssist - Personal Google Workspace MCP Server
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.4.6-black?logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql)](https://postgresql.org)
-[![Better Auth](https://img.shields.io/badge/Better_Auth-Authentication-00D9FF)](https://better-auth.com)
-[![MCP SDK](https://img.shields.io/badge/MCP_SDK-Vercel-000000?logo=vercel)](https://github.com/modelcontextprotocol/sdk)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Better Auth](https://shields.io/badge/Better%20Auth-000?logo=square&style=for-the-badge)
+![Neo4J](https://img.shields.io/badge/Neo4j-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)
+![MCP SDK](https://shields.io/badge/Vercel%20MCP%20SDK-000?logo=vercel&style=for-the-badge)
+![Caddy](https://img.shields.io/badge/Caddy-7F00FF.svg?style=for-the-badge&logo=Caddy&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-000000.svg?style=for-the-badge&logo=Bun&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-1997B5&.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Google](https://img.shields.io/badge/google%20Workspace-%2388171A?style=for-the-badge&logo=google&logoColor=white)
 
 A **Model Context Protocol (MCP) server** that provides comprehensive Google Workspace integration for your personal AI assistant with vault-level security. 
 
@@ -28,6 +35,7 @@ graph TB
         subgraph "Tool Registry"
             Gmail[Gmail Tools]
             Drive[Drive Tools]
+            Docs[Docs Tools]
             Calendar[Calendar Tools]
             Sheets[Sheets Tools]
             Slides[Slides Tools]
@@ -48,6 +56,7 @@ graph TB
     subgraph "Google APIs"
         GmailAPI[Gmail API]
         DriveAPI[Drive API]
+        DocsAPI[Docs API]
         CalendarAPI[Calendar API]
         SheetsAPI[Sheets API]
         SlidesAPI[Slides API]
@@ -76,6 +85,7 @@ graph TB
     %% Tool registration and execution
     Router --> Gmail
     Router --> Drive
+    Router --> Docs
     Router --> Calendar
     Router --> Sheets
     Router --> Slides
@@ -86,6 +96,7 @@ graph TB
     %% Service layer with MCP SDK integration
     Gmail --> OAuth
     Drive --> OAuth
+    Docs --> OAuth
     Calendar --> OAuth
     Sheets --> OAuth
     Slides --> OAuth
@@ -96,6 +107,7 @@ graph TB
     %% External API calls
     OAuth --> GmailAPI
     OAuth --> DriveAPI
+    OAuth --> DocsAPI
     OAuth --> CalendarAPI
     OAuth --> SheetsAPI
     OAuth --> SlidesAPI
@@ -104,6 +116,7 @@ graph TB
     %% Data validation and MCP SDK
     Gmail --> Schema
     Drive --> Schema
+    Docs --> Schema
     Calendar --> Schema
     Sheets --> Schema
     Slides --> Schema
@@ -127,8 +140,8 @@ graph TB
     classDef infraNodes fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
 
     class VSCode,Other clientNodes
-    class Auth,Router,Gmail,Drive,Calendar,Sheets,Slides,Tasks,Memory,Sequential,OAuth,Schema,DB,GraphDB,SessionMgmt serverNodes
-    class GmailAPI,DriveAPI,CalendarAPI,SheetsAPI,SlidesAPI,TasksAPI apiNodes
+    class Auth,Router,Gmail,Drive,Docs,Calendar,Sheets,Slides,Tasks,Memory,Sequential,OAuth,Schema,DB,GraphDB,SessionMgmt serverNodes
+    class GmailAPI,DriveAPI,DocsAPI,CalendarAPI,SheetsAPI,SlidesAPI,TasksAPI apiNodes
     class PostgresDB,GraphStore,GoogleCloud,VercelSDK infraNodes
 ```
 
@@ -144,6 +157,7 @@ graph TB
 ### **Complete Google Workspace Coverage**
 - **Gmail**: Full email management with search, labels, and batch operations
 - **Drive**: File operations with Office format support and URL imports
+- **Docs**: Create, edit, search, and batch update Google Docs with advanced content manipulation
 - **Calendar**: Event management with Google Meet and attachments
 - **Sheets**: Spreadsheet operations with flexible data I/O
 - **Slides**: Presentation management with batch updates
@@ -154,7 +168,6 @@ graph TB
 - Memory persistence for long-term context retention
 - Sequential thinking patterns for complex task management
 - Cross-platform data correlation and insights
-- Adaptive learning from user interaction patterns via memory
 
 ### **Developer Experience**
 - Built on Vercel MCP SDK for optimal performance and reliability
@@ -203,6 +216,7 @@ mcp-server/
 - **Redis instance** (Upstash or self-hosted)
 - **Google Cloud Project** with OAuth 2.1 credentials
 - **MCP-compatible client** (VS Code, etc.)
+- **Docker**
 
 ## Setup & Installation
 
@@ -261,7 +275,17 @@ bun dev
 
 Visit `http://localhost:3000/dashboard` to access the web interface.
 
+## Deployment Steps
+
+1. Check the Caddy config and start the services with Docker Compose.
+```bash
+cd mcp-server/deployment/
+docker compose up -d
+```
+
 ## MCP Client Configuration
+
+Open up the VS Code Command Palette > MCP:Open User Configuration and paste the below into `mcp.json` config.
 
 ### **VS Code MCP Client**
 
@@ -269,7 +293,7 @@ Visit `http://localhost:3000/dashboard` to access the web interface.
 {
 	"servers": {
 		"google-workspace": {
-			"url": "http://localhost:3000/api/mcp",
+			"url": "https://mcp.rycerz.es:3000/api/mcp",
 			"type": "http"
 		}
 	},
@@ -312,6 +336,23 @@ Visit `http://localhost:3000/dashboard` to access the web interface.
 | `get_drive_file_content` | Read file content (supports Office formats) |
 | `list_drive_items` | List files and folders in directories |
 | `create_drive_file` | Create files with content or from URLs |
+
+### **Google Docs Tools**
+| Tool | Description |
+|------|-------------|
+| `search_docs` | Search for Google Docs by name using Drive API |
+| `get_doc_content` | Retrieve content of a Google Doc or Drive file (.docx, etc.) |
+| `list_docs_in_folder` | List Google Docs within a specific Drive folder |
+| `create_doc` | Create a new Google Doc and optionally insert initial content |
+| `modify_doc_text` | Modify text in a Google Doc - insert/replace text and/or apply formatting |
+| `find_and_replace_doc` | Find and replace text throughout a Google Doc |
+| `insert_doc_elements` | Insert structural elements like tables, lists, or page breaks |
+| `insert_doc_image` | Insert an image into a Google Doc from Drive or URL |
+| `update_doc_headers_footers` | Update headers or footers in a Google Doc |
+| `batch_update_doc` | Execute multiple document operations in a single atomic batch update |
+| `inspect_doc_structure` | Find safe insertion points and understand document structure |
+| `create_table_with_data` | Create a table and populate it with data |
+| `debug_table_structure` | Debug table layout and cell positions |
 
 ### **Google Calendar Tools**
 | Tool | Description |
@@ -358,13 +399,23 @@ Visit `http://localhost:3000/dashboard` to access the web interface.
 | `move_task` | Reposition tasks |
 | `clear_completed_tasks` | Clean up completed tasks |
 
-### **Intelligence & Context Tools**
+### **Memory Tools**
 | Tool | Description |
 |------|-------------|
-| `memory_persistence` | Store and retrieve long-term context |
-| `sequential_thinking` | Complex multi-step task management |
-| `relationship_mapping` | Graph-based data correlation |
-| `context_analysis` | Cross-platform insight generation |
-| `adaptive_learning` | Pattern recognition from interactions |
+| `memory_create_entities` | Store new entities in the user's memory graph. |
+| `memory_create_relations` | Create relationships between entities. |
+| `memory_add_observations` | Add details to existing entities. |
+| `memory_delete_entities` | Remove entities and their relationships. |
+| `memory_delete_observations` | Remove specific details from entities. |
+| `memory_delete_relations` | Remove relationships between entities. |
+| `memory_read_graph` | Retrieve the full memory graph. |
+| `memory_search_nodes` | Search for nodes by name, type, or content. |
+| `memory_open_nodes` | Get details for specific entities. |
 
----
+### **Sequential Thinking Tools**
+| Tool | Description |
+|------|-------------|
+| `sequentialthinking` | Dynamic, reflective problem-solving. |
+
+
+
