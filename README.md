@@ -210,7 +210,9 @@ mcp-server/
 └── package.json
 ```
 
+## Demo
 
+https://github.com/user-attachments/assets/d0bf7f21-8044-4308-a029-1b8c13c439c9
 
 ## Prerequisites
 
